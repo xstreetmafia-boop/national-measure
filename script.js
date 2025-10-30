@@ -44,7 +44,6 @@ const frameOptionsList = document.getElementById('frameOptionsList');
 // Header Inputs
 const inputPartyName = document.getElementById('inputPartyName'); 
 const inputLocation = document.getElementById('inputLocation'); 
-// REMOVED: inputTime reference
 
 // Item Inputs
 const inputItem = document.getElementById('inputItem');
@@ -230,7 +229,7 @@ generatePdfBtn.addEventListener('click', () => {
     // Capture CURRENT DATE and TIME when the PDF is generated
     const now = new Date();
     const date = now.toLocaleDateString();
-    // Format time (e.g., 01:15 PM)
+    // Format time (e.g., 03:48 PM)
     const timeDisplay = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); 
 
     // Initialize jsPDF
@@ -238,7 +237,7 @@ generatePdfBtn.addEventListener('click', () => {
     const doc = new jsPDF();
     let y = 20; 
 
-    // 1. Document Title
+    // 1. Document Title (UPDATED HERE)
     doc.setFontSize(22);
     doc.text('NMF Angamaly', 14, y);
     y += 10;
@@ -259,7 +258,7 @@ generatePdfBtn.addEventListener('click', () => {
     doc.text(location || 'N/A', 40, y); 
     y += 8;
 
-    // 4. Date and Time (UPDATED TO AUTO-FETCH BOTH)
+    // 4. Date and Time
     doc.setFontSize(10);
     doc.setFont(undefined, 'bold');
     doc.text(`Date:`, 14, y);
@@ -312,4 +311,3 @@ updatePdfButtonState();
 // 4. Optional: Add a few default rows for testing
 addRow('Custom Frame', 20, 30, 5, '16mm square rad', '4x3'); 
 addRow('Sliding Door', 150, 210, 1, '20mm ss grill', 'Custom 6x4.5');
-
