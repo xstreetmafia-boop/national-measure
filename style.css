@@ -1,0 +1,38 @@
+/* Custom styles */
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 900px;
+}
+
+#orderTable th, #orderTable td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Ensure the table inputs are not too small */
+#orderTable input[type="text"],
+#orderTable input[type="number"] {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    padding: 0; 
+}
+
+/* Style the new select dropdown inside the table */
+#orderTable select.form-select-sm {
+    font-size: 0.75rem; /* Make it smaller to fit */
+    padding: 0.1rem 0.5rem;
+    height: auto;
+    width: 100%;
+}
+
+/* Hide the up/down arrows on number inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
