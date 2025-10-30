@@ -1,4 +1,4 @@
-// --- GRILL OPTIONS DATA (New item added here) ---
+// --- OPTIONS DATA ---
 const GRILL_OPTIONS = [
     "None", 
     "12mm round rad",
@@ -16,7 +16,7 @@ const GRILL_OPTIONS = [
     "20mm ss grill",
     "25mm sq tube",
     "25mm round tube",
-    "20mm diamond tube" // <-- NEW ITEM ADDED
+    "20mm diamond tube" 
 ];
 
 const FRAME_OPTIONS = [
@@ -44,6 +44,7 @@ const frameOptionsList = document.getElementById('frameOptionsList');
 // Header Inputs
 const inputPartyName = document.getElementById('inputPartyName'); 
 const inputLocation = document.getElementById('inputLocation'); 
+// REMOVED: inputTime reference
 
 // Item Inputs
 const inputItem = document.getElementById('inputItem');
@@ -220,11 +221,17 @@ generatePdfBtn.addEventListener('click', () => {
     const tableData = collectTableData();
     const partyName = inputPartyName.value.trim(); 
     const location = inputLocation.value.trim(); 
-
+    
     if (tableData.length === 0) {
         alert('The table is empty. Add some items first!');
         return;
     }
+
+    // Capture CURRENT DATE and TIME when the PDF is generated
+    const now = new Date();
+    const date = now.toLocaleDateString();
+    // Format time (e.g., 01:15 PM)
+    const timeDisplay = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); 
 
     // Initialize jsPDF
     const { jsPDF } = window.jspdf;
@@ -252,10 +259,17 @@ generatePdfBtn.addEventListener('click', () => {
     doc.text(location || 'N/A', 40, y); 
     y += 8;
 
-    // 4. Date
-    const date = new Date().toLocaleDateString();
+    // 4. Date and Time (UPDATED TO AUTO-FETCH BOTH)
     doc.setFontSize(10);
-    doc.text(`Date: ${date}`, 14, y);
+    doc.setFont(undefined, 'bold');
+    doc.text(`Date:`, 14, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(`${date}`, 27, y);
+    
+    doc.setFont(undefined, 'bold');
+    doc.text(`Time:`, 55, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(`${timeDisplay}`, 68, y);
     y += 8;
 
     // 5. Table Header Definition
