@@ -240,7 +240,7 @@ generatePdfBtn.addEventListener('click', () => {
 
     // 1. Document Title
     doc.setFontSize(22);
-    doc.text('Order Summary Report', 14, y);
+    doc.text('NMF Angamaly', 14, y);
     y += 10;
 
     // 2. Party Name
@@ -312,3 +312,4 @@ updatePdfButtonState();
 // 4. Optional: Add a few default rows for testing
 addRow('Custom Frame', 20, 30, 5, '16mm square rad', '4x3'); 
 addRow('Sliding Door', 150, 210, 1, '20mm ss grill', 'Custom 6x4.5');
+
