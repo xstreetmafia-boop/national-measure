@@ -1,4 +1,4 @@
-// --- OPTIONS DATA ---
+// --- GRILL OPTIONS DATA (New item added here) ---
 const GRILL_OPTIONS = [
     "None", 
     "12mm round rad",
@@ -15,7 +15,8 @@ const GRILL_OPTIONS = [
     "20mm round tube",
     "20mm ss grill",
     "25mm sq tube",
-    "25mm round tube"
+    "25mm round tube",
+    "20mm diamond tube" // <-- NEW ITEM ADDED
 ];
 
 const FRAME_OPTIONS = [
@@ -38,7 +39,7 @@ const FRAME_OPTIONS = [
 const addRowBtn = document.getElementById('addRowBtn');
 const generatePdfBtn = document.getElementById('generatePdfBtn');
 const tableBody = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
-const frameOptionsList = document.getElementById('frameOptionsList'); // Reference to the datalist
+const frameOptionsList = document.getElementById('frameOptionsList'); 
 
 // Header Inputs
 const inputPartyName = document.getElementById('inputPartyName'); 
@@ -93,11 +94,7 @@ function createInputCell(type, value, placeholder, className = '', isFrameSize =
     input.className = 'form-control-plaintext ' + className; 
     input.setAttribute('data-type', type);
     
-    // Add datalist if it's the Frame Size column
     if (isFrameSize) {
-        // We can't easily add a datalist to inputs in the dynamic table rows
-        // because the datalist must exist in the HTML. We'll leave these as
-        // standard text inputs for simplicity and editability.
         input.setAttribute('placeholder', 'Type here...');
     }
     
@@ -139,7 +136,6 @@ function addRow(item, width, height, qty, grillType, frameSize) {
     newRow.appendChild(createInputCell('number', height, '0', 'table-input-number'));
     newRow.appendChild(createInputCell('number', qty, '1', 'table-input-number'));
     newRow.appendChild(createGrillSelectCell(grillType)); 
-    // Frame Size is a text input cell (isFrameSize=true is just for placeholder note)
     newRow.appendChild(createInputCell('text', frameSize, '4x3 or Custom', '', true)); 
 
     // Delete Button
@@ -160,7 +156,7 @@ function addRow(item, width, height, qty, grillType, frameSize) {
     inputHeight.value = '';
     inputQty.value = '';
     inputGrillType.value = 'None'; 
-    inputFrameSize.value = ''; // Clear text input
+    inputFrameSize.value = ''; 
     inputItem.focus();
     updatePdfButtonState();
 }
@@ -173,7 +169,7 @@ addRowBtn.addEventListener('click', () => {
     const height = parseFloat(inputHeight.value) || 0;
     const qty = parseInt(inputQty.value) || 1;
     const grillType = inputGrillType.value; 
-    const frameSize = inputFrameSize.value.trim(); // Get text input value
+    const frameSize = inputFrameSize.value.trim(); 
 
     if (item === '') {
         alert('Please enter an Item Name.');
