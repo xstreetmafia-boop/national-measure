@@ -15,8 +15,7 @@ const GRILL_OPTIONS = [
     "20mm round tube",
     "20mm ss grill",
     "25mm sq tube",
-    "25mm round tube",
-    "20mm diamond tube" 
+    "25mm round tube"
 ];
 
 const FRAME_OPTIONS = [
@@ -39,7 +38,7 @@ const FRAME_OPTIONS = [
 const addRowBtn = document.getElementById('addRowBtn');
 const generatePdfBtn = document.getElementById('generatePdfBtn');
 const tableBody = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
-const frameOptionsList = document.getElementById('frameOptionsList'); 
+const frameOptionsList = document.getElementById('frameOptionsList'); // Reference to the datalist
 
 // Header Inputs
 const inputPartyName = document.getElementById('inputPartyName'); 
@@ -94,7 +93,11 @@ function createInputCell(type, value, placeholder, className = '', isFrameSize =
     input.className = 'form-control-plaintext ' + className; 
     input.setAttribute('data-type', type);
     
+    // Add datalist if it's the Frame Size column
     if (isFrameSize) {
+        // We can't easily add a datalist to inputs in the dynamic table rows
+        // because the datalist must exist in the HTML. We'll leave these as
+        // standard text inputs for simplicity and editability.
         input.setAttribute('placeholder', 'Type here...');
     }
     
@@ -136,6 +139,7 @@ function addRow(item, width, height, qty, grillType, frameSize) {
     newRow.appendChild(createInputCell('number', height, '0', 'table-input-number'));
     newRow.appendChild(createInputCell('number', qty, '1', 'table-input-number'));
     newRow.appendChild(createGrillSelectCell(grillType)); 
+    // Frame Size is a text input cell (isFrameSize=true is just for placeholder note)
     newRow.appendChild(createInputCell('text', frameSize, '4x3 or Custom', '', true)); 
 
     // Delete Button
@@ -156,7 +160,7 @@ function addRow(item, width, height, qty, grillType, frameSize) {
     inputHeight.value = '';
     inputQty.value = '';
     inputGrillType.value = 'None'; 
-    inputFrameSize.value = ''; 
+    inputFrameSize.value = ''; // Clear text input
     inputItem.focus();
     updatePdfButtonState();
 }
@@ -169,7 +173,7 @@ addRowBtn.addEventListener('click', () => {
     const height = parseFloat(inputHeight.value) || 0;
     const qty = parseInt(inputQty.value) || 1;
     const grillType = inputGrillType.value; 
-    const frameSize = inputFrameSize.value.trim(); 
+    const frameSize = inputFrameSize.value.trim(); // Get text input value
 
     if (item === '') {
         alert('Please enter an Item Name.');
@@ -220,26 +224,20 @@ generatePdfBtn.addEventListener('click', () => {
     const tableData = collectTableData();
     const partyName = inputPartyName.value.trim(); 
     const location = inputLocation.value.trim(); 
-    
+
     if (tableData.length === 0) {
         alert('The table is empty. Add some items first!');
         return;
     }
-
-    // Capture CURRENT DATE and TIME when the PDF is generated
-    const now = new Date();
-    const date = now.toLocaleDateString();
-    // Format time (e.g., 03:48 PM)
-    const timeDisplay = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); 
 
     // Initialize jsPDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     let y = 20; 
 
-    // 1. Document Title (UPDATED HERE)
+    // 1. Document Title
     doc.setFontSize(22);
-    doc.text('NMF Angamaly', 14, y);
+    doc.text('Order Summary Report', 14, y);
     y += 10;
 
     // 2. Party Name
@@ -258,17 +256,10 @@ generatePdfBtn.addEventListener('click', () => {
     doc.text(location || 'N/A', 40, y); 
     y += 8;
 
-    // 4. Date and Time
+    // 4. Date
+    const date = new Date().toLocaleDateString();
     doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text(`Date:`, 14, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(`${date}`, 27, y);
-    
-    doc.setFont(undefined, 'bold');
-    doc.text(`Time:`, 55, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(`${timeDisplay}`, 68, y);
+    doc.text(`Date: ${date}`, 14, y);
     y += 8;
 
     // 5. Table Header Definition
@@ -355,5 +346,3 @@ addRow = function (...args) {
 
 // Initialize on load (for default rows)
 enableRowDragging();
-
-
