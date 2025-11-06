@@ -311,3 +311,49 @@ updatePdfButtonState();
 // 4. Optional: Add a few default rows for testing
 addRow('Custom Frame', 20, 30, 5, '16mm square rad', '4x3'); 
 addRow('Sliding Door', 150, 210, 1, '20mm ss grill', 'Custom 6x4.5');
+// --- DRAG AND DROP ROW REORDERING ---
+let draggedRow = null;
+
+// Allow rows to be draggable
+function enableRowDragging() {
+    const rows = tableBody.querySelectorAll('tr');
+    rows.forEach(row => {
+        row.draggable = true;
+
+        row.addEventListener('dragstart', (e) => {
+            draggedRow = row;
+            row.style.opacity = '0.5';
+        });
+
+        row.addEventListener('dragend', (e) => {
+            row.style.opacity = '';
+            draggedRow = null;
+        });
+
+        row.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const bounding = row.getBoundingClientRect();
+            const offset = bounding.y + bounding.height / 2;
+            const after = (e.clientY - offset) > 0;
+            const parent = row.parentNode;
+
+            if (after) {
+                parent.insertBefore(draggedRow, row.nextSibling);
+            } else {
+                parent.insertBefore(draggedRow, row);
+            }
+        });
+    });
+}
+
+// Re-enable dragging after every new row is added
+const originalAddRow = addRow;
+addRow = function (...args) {
+    originalAddRow.apply(this, args);
+    enableRowDragging();
+};
+
+// Initialize on load (for default rows)
+enableRowDragging();
+
+
