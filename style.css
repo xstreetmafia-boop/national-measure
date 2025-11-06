@@ -35,7 +35,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-
 }
 tr.dragging {
   opacity: 0.5;
