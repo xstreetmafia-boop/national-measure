@@ -15,7 +15,8 @@ const GRILL_OPTIONS = [
     "20mm round tube",
     "20mm ss grill",
     "25mm sq tube",
-    "25mm round tube"
+    "25mm round tube",
+    "20mm diamond tube"
 ];
 
 const FRAME_OPTIONS = [
@@ -346,3 +347,4 @@ addRow = function (...args) {
 
 // Initialize on load (for default rows)
 enableRowDragging();
+
