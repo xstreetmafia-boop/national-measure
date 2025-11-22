@@ -45,16 +45,20 @@
                 <div class="col-md-2">
                     <label for="inputGrillType">Grill Type</label>
                     <select id="inputGrillType" class="form-select">
-                        </select>
+                    </select>
                 </div>
                 <div class="col-md-2">
                     <label for="inputFrameSize">Frame Size</label>
                     <input type="text" id="inputFrameSize" class="form-control" placeholder="Type or Select" list="frameOptionsList" value="">
                     
                     <datalist id="frameOptionsList">
-                        </datalist>
+                    </datalist>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <label for="inputNotes">Notes</label>
+                    <input type="text" id="inputNotes" class="form-control" placeholder="e.g., Powder coating white">
+                </div>
+                <div class="col-md-1">
                     <button id="addRowBtn" class="btn btn-primary w-100">Add Item</button>
                 </div>
             </div>
@@ -68,8 +72,10 @@
                         <th>Width (cm)</th>
                         <th>Height (cm)</th>
                         <th>Qty</th>
+                        <th>Total Area (m²)</th> 
                         <th>Grill Type</th>
                         <th>Frame Size</th>
+                        <th>Notes</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -90,4 +96,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
